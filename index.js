@@ -1,3 +1,4 @@
+
 // Import required modules
 import express from "express";
 import mongoose from 'mongoose';
@@ -32,10 +33,9 @@ app.use(cors());
 
 // Connect to MongoDB
 mongoose.connect(process.env.mongoDbURL)
-  .then(() => console.log("✅ Connected to MongoDB"))
-  .catch(err => console.error("❌ MongoDB connection error:", err));
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.error("MongoDB connection error:", err));
 
-// 🟢 Routes
 
 app.get('/', (req, res) => {
   res.send('Hello, this is your custom Node.js backend!');
