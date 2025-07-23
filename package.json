@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "The Abroad Scholarship Management System is a MERN stack web application that streamlines international IT scholarship applications",
   "main": "index.js",
   "type": "module",
   "scripts": {
