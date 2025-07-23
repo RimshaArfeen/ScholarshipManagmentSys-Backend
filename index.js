@@ -1,45 +1,38 @@
-
-// Import required modules
+// index.js
 import express from "express";
 import mongoose from 'mongoose';
+import cors from "cors";
+import dotenv from 'dotenv';
+import path from "path";
+import { fileURLToPath } from "url";
+
 import User from "./Schema/Applicant.js";
 import StudentInfo from "./Schema/StudentInfo.js";
 import Admin from "./Schema/AdminSchema.js";
-import cors from "cors";
-import JWT from "jsonwebtoken";
-import path from "path";
-import { fileURLToPath } from "url";
-import serverless from "serverless-http";
-import dotenv from 'dotenv';
+
 dotenv.config();
 
-
-
-// Config
 const jwtKey = "jwtSecrectKey";
-const PORT = 3000;
 
 // Setup __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Initialize the Express app
+// Create Express app
 const app = express();
-export const handler = serverless(app);
-
-// Middleware
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 // Connect to MongoDB
 mongoose.connect(process.env.mongoDbURL)
   .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.error("MongoDB connection error:", err));
 
-
+// Routes
 app.get('/', (req, res) => {
-  res.send('Hello, this is your custom Node.js backend!');
-});
+  res.send('Backend is live via serverless function!');
+})
+
 
 app.post('/signup', async (req, res) => {
   try {
@@ -148,6 +141,6 @@ function verifyToken(req, res, next) {
 // });
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`🚀 Server is running on port ${PORT}`);
+// });
