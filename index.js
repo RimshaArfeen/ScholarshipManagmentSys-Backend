@@ -8,9 +8,12 @@ import cors from "cors";
 import JWT from "jsonwebtoken";
 import path from "path";
 import { fileURLToPath } from "url";
-const serverless = require('serverless-http');
+import serverless from "serverless-http";
+import dotenv from 'dotenv';
+dotenv.config();
 
-module.exports.handler = serverless(app);
+
+
 // Config
 const jwtKey = "jwtSecrectKey";
 const PORT = 3000;
@@ -21,6 +24,7 @@ const __dirname = path.dirname(__filename);
 
 // Initialize the Express app
 const app = express();
+export const handler = serverless(app);
 
 // Middleware
 app.use(express.json());
@@ -28,7 +32,8 @@ app.use(cors());
 
 // Connect to MongoDB
 mongoose.connect(process.env.mongoDbURL)
-
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch(err => console.error("❌ MongoDB connection error:", err));
 
 // 🟢 Routes
 
@@ -135,12 +140,12 @@ function verifyToken(req, res, next) {
   }
 }
 
-// 🟨 Serve Frontend (after all API routes)
-app.use(express.static(path.join(__dirname, "Frontend/dist")));
+// // 🟨 Serve Frontend (after all API routes)
+// app.use(express.static(path.join(__dirname, "Frontend/dist")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "Frontend/dist", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "Frontend/dist", "index.html"));
+// });
 
 // Start the server
 app.listen(PORT, () => {
